@@ -4,5 +4,5 @@ export const setUsername = (username) =>{
     return {
         type:"DASHBOARD_SET_USERNAME",
         username
-    }
+    };
 }
