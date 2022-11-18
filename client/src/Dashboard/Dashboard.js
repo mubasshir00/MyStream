@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import ActiveUserListItem from './components/ActiveUserList/ActiveUserListItem';
 import ActiveUsersList from './components/ActiveUserList/ActiveUsersList';
 import * as webRTC from '../utils/websocket/webRTC/webRTCHandler'
+import DirectCall from './components/DirectCall/DirectCall';
 const Dashboard = () => {
 
   useEffect(() => {
@@ -11,7 +12,9 @@ const Dashboard = () => {
 
   return (
     <div>
-      <div>COntent</div>
+      <div>
+        <DirectCall/>
+      </div>
       <div>rooms</div>
       <div>
         <div>
