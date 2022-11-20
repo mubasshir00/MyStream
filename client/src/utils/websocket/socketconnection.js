@@ -1,6 +1,7 @@
 import socketClient from 'socket.io-client';
 import store from '../../store/store';
-import * as dashboardActions from '../../store/actions/dashboardActions'
+import * as dashboardActions from '../../store/actions/dashboardActions';
+import * as webRTC from './webRTC/webRTCHandler';
 
 const server = 'http://localhost:3017';
 
@@ -21,6 +22,11 @@ export const connectedWithWebSocket = () =>{
     socket.on('broadcast', data => {
       handleBroadcastEvents(data);
     });
+
+    //listenrs related with direct call
+    socket.on('pre-call-option',(data)=>{
+        webRTC.preCallHandle(data);
+    });
 };
 
 export const newOnlineUser = (username) =>{
@@ -39,4 +45,8 @@ const handleBroadcastEvents = (data) =>{
         default:
             break;
     }
+}
+
+export const sendPreOffer = (data) =>{
+    socket.emit("pre-call-option",data)
 }

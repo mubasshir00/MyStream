@@ -41,14 +41,22 @@ io.on('connection',(socket)=>{
         activeUsers:peers
     })
 
-    // socket.on('disconnect',()=>{
-    //     console.log('user disconnected');
-    //     console.log(peers);
-    //     peers = peers.filter(i => i.socketId !== socket.id);
-    //     io.sockets.emit('broadcast',{
-    //         event:broadcastEventTypes.ACTIVE_USERS,
-    //         activeUsers:peers
-    //     })
-    // })
+    socket.on('disconnect',()=>{
+        console.log('user disconnected');
+        console.log(peers);
+        peers = peers.filter(i => i.socketId !== socket.id);
+        io.sockets.emit('broadcast',{
+            event:broadcastEventTypes.ACTIVE_USERS,
+            activeUsers:peers
+        })
+    })
+
+    socket.on('pre-call-option',(data)=>{
+        console.log({data});
+        io.to(data.callee.socketId).emit('pre-call-option',{
+            callerUsername:data.caller.username,
+            callerSocketId: socket.id
+        });
+    });
 
 })
