@@ -1,13 +1,14 @@
 import React from 'react'
+import { acceptIncomingCallRequest, rejectIncomingCallRequest } from '../../../utils/websocket/webRTC/webRTCHandler'
 
 const IncomingCallDialog = ({callerUsername}) => {
 
   const handleAcceptButtonPressed = () =>{
-
+    acceptIncomingCallRequest();
   }
 
   const handleRejectButtonPressed = () =>{
-
+    rejectIncomingCallRequest();
   }
 
   return (

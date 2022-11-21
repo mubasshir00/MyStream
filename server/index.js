@@ -59,4 +59,11 @@ io.on('connection',(socket)=>{
         });
     });
 
+    socket.on('pre-call-answer',data=>{
+        console.log('pre-call-answer',data);
+        io.to(data.callerSocketId).emit('pre-call-answer',{
+            answer:data.answer
+        });
+    });
+
 })

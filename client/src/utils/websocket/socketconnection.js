@@ -27,6 +27,10 @@ export const connectedWithWebSocket = () =>{
     socket.on('pre-call-option',(data)=>{
         webRTC.preCallHandle(data);
     });
+
+    socket.on('pre-call-answer',data=>{
+        webRTC.preCallAnswerHandle(data);
+    });
 };
 
 export const newOnlineUser = (username) =>{
@@ -34,6 +38,14 @@ export const newOnlineUser = (username) =>{
         username:username,
         socketId:socket.id
     });
+}
+
+export const sendPreOffer = data => {
+  socket.emit('pre-call-option', data);
+};
+
+export const sendPreCallAnswer = (data) =>{
+    socket.emit('pre-call-answer',data)
 }
 
 const handleBroadcastEvents = (data) =>{
@@ -45,8 +57,4 @@ const handleBroadcastEvents = (data) =>{
         default:
             break;
     }
-}
-
-export const sendPreOffer = (data) =>{
-    socket.emit("pre-call-option",data)
 }

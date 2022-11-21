@@ -1,9 +1,13 @@
 import * as callActions from '../actions/callActions';
 const initState = {
-  localSteam:null,
+  localSteam: null,
   callState: callActions.callstates.CALL_UNAVAILABLE,
-  callingDialogVisible:false,
-  callerUsername:''
+  callingDialogVisible: false,
+  callerUsername: '',
+  callRejected: {
+    rejected: false,
+    reason : '',
+  },
 };
 
 const reducer = (state = initState, action) => {
@@ -27,6 +31,11 @@ const reducer = (state = initState, action) => {
       return {
         ...state,
         callerUsername:action.callerUsername
+      }
+    case callActions.CALL_SET_CALL_REJECTED:
+      return{
+        ...state,
+        callRejected: action.callRejected
       }
     default:
       return state;
