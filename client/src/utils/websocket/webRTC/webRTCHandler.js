@@ -54,6 +54,29 @@ const createPeerConnection = () =>{
     }
 }
 
+const sendOffer = async() =>{
+    const offer = await peerConnection.createOffer()
+    await peerConnection.setLocalDescription(offer);
+    wss.sendWebRTCOffer({
+        calleeSocketId : connectedUserSocketId,
+        offer:offer
+    })
+}
+
+export const handleOffer = async (data) =>{
+    await peerConnection.setRemoteDescription(data.offer);
+    const answer = await peerConnection.createAnswer();
+    await peerConnection.setLocalDescription(answer);
+    wss.sendWebRTCAnswer({
+        callerSocketId : connectedUserSocketId,
+        answer:answer
+    })
+}
+
+export const handleAnswer = async(data) =>{
+    await peerConnection.setRemoteDescription(data.answer);
+}
+
 export const callToOtherUser = (calleeDetails) =>{
     connectedUserSocketId = calleeDetails.socketId;
     store.dispatch(setCallState(callstates.CALL_IN_PROGRESS));
@@ -108,6 +131,7 @@ export const callIsPossible = () =>{
 export const preCallAnswerHandle = (data) =>{
     store.dispatch(setCallingDialogVisible(false));
    if (data.answer === preOfferAnswers.CALL_ACCEPTED) {
+    sendOffer();
    } else {
     let rejectionReason ;
     if(data.answer === preOfferAnswers.CALL_NOT_AVAILABLE){

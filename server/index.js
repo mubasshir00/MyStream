@@ -66,4 +66,18 @@ io.on('connection',(socket)=>{
         });
     });
 
+    socket.on('webRTC-call',(data)=>{
+        console.log('handling webRTC offer');
+        io.to(data.calleeSocketId).emit('webRTC-call',{
+            answer:data.answer
+        });
+    });
+
+    socket.on('webRTC-answer',(data)=>{
+        console.log('Handling web rtc answer');
+        io.to(data.callerSocketId).emit('webRTC-answer',{
+            answer:data.answer
+        });
+    })
+
 })
